@@ -15,6 +15,7 @@ class Pair:
 # '''
 class BasicHashTable:
     def __init__(self, capacity):
+        self.capacity = capacity # max storage
         pass
 
 
