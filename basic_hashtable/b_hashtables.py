@@ -15,8 +15,9 @@ class Pair:
 # '''
 class BasicHashTable:
     def __init__(self, capacity):
-        self.capacity = capacity # max storage
-        pass
+        self.capacity = capacity  # Maximum size the array can be
+        self.count = 0  # Current size being used
+        self.storage = [None] * capacity
 
 
 # '''
@@ -24,7 +25,22 @@ class BasicHashTable:
 # Research and implement the djb2 hash function
 # '''
 def hash(string, max):
-    pass
+#     Notes from Stack overflow 
+            # hash(unsigned char *str)
+            # {
+            #     unsigned long hash = 5381;
+            #     int c;
+
+            #     while (c = *str++)
+            #         hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+
+            #     return hash;
+            # }
+    hash = 5381
+    for i in string:
+        hash = ((hash << 5) + hash) ^ ord(i)
+
+    return hash % max
 
 
 # '''
@@ -33,7 +49,15 @@ def hash(string, max):
 # If you are overwriting a value with a different key, print a warning.
 # '''
 def hash_table_insert(hash_table, key, value):
-    pass
+
+    hashed_index = hash(key, hash_table.capacity)
+
+    if hash_table.storage[hashed_index] and hash_table.storage[hashed_index][0] != key:
+    	print(f'Overwriting key {hash_table.storage[hashed_index][0]} with {key}!')
+
+    hash_table.storage[hashed_index] = (key, value)
+
+    return
 
 
 # '''
@@ -42,7 +66,14 @@ def hash_table_insert(hash_table, key, value):
 # If you try to remove a value that isn't there, print a warning.
 # '''
 def hash_table_remove(hash_table, key):
-    pass
+    hashed_index = hash(key, hash_table.capacity)
+
+    if not hash_table.storage[hashed_index]:
+    	return print(f'Key {key} not found!')
+
+    hash_table.storage[hashed_index] = None
+
+    return
 
 
 # '''
@@ -51,7 +82,14 @@ def hash_table_remove(hash_table, key):
 # Should return None if the key is not found.
 # '''
 def hash_table_retrieve(hash_table, key):
-    pass
+    hashed_index = hash(key, hash_table.capacity)
+
+    retrieved = hash_table.storage[hashed_index]
+
+    if retrieved:
+    	return retrieved[1]
+    else:
+    	return retrieved
 
 
 def Testing():
