@@ -38,7 +38,7 @@ def hash(string, max):
             # }
     hash = 5381
     for i in string:
-        hash = ((hash << 5) + hash) ^ ord(i)
+        hash = ((hash << 5) + hash) + ord(i)
 
     return hash % max
 
@@ -51,8 +51,10 @@ def hash(string, max):
 def hash_table_insert(hash_table, key, value):
 
     hashed_index = hash(key, hash_table.capacity)
+    pair = Pair(key, value)
+    stored_pair = hash_table.storage[hashed_index]
 
-    if hash_table.storage[hashed_index] and hash_table.storage[hashed_index][0] != key:
+    if hash_table.storage[hashed_index] is not None:
     	print(f'Overwriting key {hash_table.storage[hashed_index][0]} with {key}!')
 
     hash_table.storage[hashed_index] = (key, value)
